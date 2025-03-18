@@ -1,0 +1,21 @@
+{
+  "name": "resupply",
+  "version": "1.0.0",
+  "main": "ResupplyBot.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "phil_00Llama",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-telegram-bot-api": "^0.66.0",
+    "web3": "^1.10.4",
+    "web3-eth-contract": "^4.7.2"
+  },
+  "devDependencies": {
+    "@types/node-telegram-bot-api": "^0.64.7"
+  }
+}
