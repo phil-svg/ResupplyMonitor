@@ -18,7 +18,7 @@ export function registerHandler(handler: (logs: EvmLogEntry[]) => void) {
   handlers.push(handler);
 }
 
-export async function startListeningToAllEvents() {
+export async function startListeningToAllEvents(): Promise<any> {
   try {
     let lastBlockNumber = await web3HttpProvider.eth.getBlockNumber();
     await getLogsForBlock(lastBlockNumber);

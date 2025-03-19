@@ -22,7 +22,6 @@ import { plugTo_Swapper } from './pluggedContracts/Swapper.js';
 import { plugTo_Treasury } from './pluggedContracts/Treasury.js';
 import { plugTo_VestManager } from './pluggedContracts/VestManager.js';
 import { plugTo_Voter } from './pluggedContracts/Voter.js';
-import { plugTo_WriteOffToken } from './pluggedContracts/WriteOffToken.js';
 
 export async function startListeningToAllContracts(eventEmitter: any) {
   await plugTo_reUSD(eventEmitter);
@@ -46,7 +45,6 @@ export async function startListeningToAllContracts(eventEmitter: any) {
   await plugTo_Treasury(eventEmitter);
   await plugTo_VestManager(eventEmitter);
   await plugTo_Voter(eventEmitter);
-  await plugTo_WriteOffToken(eventEmitter);
 }
 
 export async function plugTo_RSUP2(eventEmitter: any) {
