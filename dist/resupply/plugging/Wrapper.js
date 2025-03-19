@@ -1,6 +1,3 @@
-import { address_RSUP, getABI_RSUP } from '../../getters/resupply/RSUP.js';
-import { getMessage_primitiveEvent } from '../../telegram/messages/PrimitiveEventMessage.js';
-import { fetchEventsRealTime, registerHandler } from '../../web3/AllEvents.js';
 import { plugTo_AutoStakeCallback } from './pluggedContracts/AutoStakeCallback.js';
 import { plugTo_EmissionsController } from './pluggedContracts/EmissionsController.js';
 import { plugTo_FeeDeposit } from './pluggedContracts/FeeDeposit.js';
@@ -44,20 +41,5 @@ export async function startListeningToAllContracts(eventEmitter) {
     await plugTo_Treasury(eventEmitter);
     await plugTo_VestManager(eventEmitter);
     await plugTo_Voter(eventEmitter);
-}
-export async function plugTo_RSUP2(eventEmitter) {
-    registerHandler(async (logs) => {
-        const events = await fetchEventsRealTime(logs, address_RSUP, getABI_RSUP(), 'AllEvents');
-        if (events.length > 0) {
-            events.forEach(async (event) => {
-                const contractAddress = address_RSUP;
-                const eventName = event.event;
-                const contractName = 'RSUP';
-                const txHash = event.transactionHash;
-                const message = await getMessage_primitiveEvent(contractAddress, eventName, contractName, txHash);
-                eventEmitter.emit('newMessage', message);
-            });
-        }
-    });
 }
 //# sourceMappingURL=Wrapper.js.map
