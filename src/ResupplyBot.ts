@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { telegramBotMain } from './telegram/TelegramBot.js';
 import { getLogsForBlock, startListeningToAllEvents } from './web3/AllEvents.js';
 import { allMarketsInfoPromise } from './resupply/LoadAllMarkets.js';
-import { startListeningToAllContracts } from './resupply/plugging/Plugging.js';
+import { startListeningToAllContracts } from './resupply/plugging/Wrapper.js';
 console.clear();
 
 const ENV = 'prod';
@@ -16,6 +16,8 @@ async function histo() {
   await telegramBotMain(ENV, eventEmitter);
   await startListeningToAllContracts(eventEmitter);
   await getLogsForBlock(blockNumber);
+  const allMarketsInfo = await allMarketsInfoPromise;
+  console.log('allMarketsInfo', allMarketsInfo);
 }
 // await histo();
 

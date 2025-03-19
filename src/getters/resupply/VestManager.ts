@@ -2,7 +2,7 @@ import { web3HttpProvider } from '../../web3/Web3Basics.js';
 
 export const address_VestManager = '0x6666666677B06CB55EbF802BB12f8876360f919c';
 
-export function getContract_reUSD() {
+export function getContract_VestManager() {
   const contract = new web3HttpProvider.eth.Contract(getABI_VestManager(), address_VestManager);
   return contract;
 }

@@ -127,21 +127,8 @@ export async function shortenAddress(address: string): Promise<string> {
   return address.slice(0, 7) + '..' + address.slice(-2);
 }
 
-function getTimeMessage(timestamp: Date): string {
-  if (!timestamp) return 'never seen'; // If no transaction was seen
-
-  const differenceInSeconds = (new Date().getTime() - timestamp.getTime()) / 1000;
-
-  if (differenceInSeconds < 60) {
-    const seconds = Math.floor(differenceInSeconds);
-    return `${seconds} ${seconds === 1 ? 'second' : 'seconds'} ago`;
-  }
-  if (differenceInSeconds < 3600) {
-    const minutes = Math.floor(differenceInSeconds / 60);
-    return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
-  }
-  const hours = Math.floor(differenceInSeconds / 3600);
-  return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+export async function shortenTxHash(address: string): Promise<string> {
+  return address.slice(0, 7) + '..' + address.slice(-2);
 }
 
 export async function telegramBotMain(env: string, eventEmitter: EventEmitter) {
