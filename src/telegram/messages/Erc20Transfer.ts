@@ -5,7 +5,7 @@ export function getMessage_erc20(address: string, tokenName: string, tokenDecima
   const txHashUrlEtherscan = getTxHashURLfromEtherscan(event.transactionHash);
 
   return `
-Transfer of ${amount.toLocaleString()} ${tokenName} spotted
+Transfer of ${amount.toFixed(0).toLocaleString()} ${tokenName} spotted
 Links:${hyperlink(txHashUrlEtherscan, 'txHash')} |${hyperlink(getAddressURL(address), tokenName)} 🦛🦛🦛
 `;
 }
