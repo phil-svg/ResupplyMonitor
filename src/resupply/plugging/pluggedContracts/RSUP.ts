@@ -4,8 +4,8 @@ import { getMessage_primitiveEvent } from '../../../telegram/messages/PrimitiveE
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 
 export async function plugTo_RSUP(eventEmitter: any) {
-  const solvedEvents = new Set(['Transfer']);
-  const blacklistedEvents = new Set(['foo', 'bar']);
+  const solvedEvents = new Set(['Transfer', 'foo']);
+  const blacklistedEvents = new Set(['Approve', 'bar']);
 
   registerHandler(async (logs) => {
     const events = await fetchEventsRealTime(logs, address_RSUP, getABI_RSUP(), 'AllEvents');

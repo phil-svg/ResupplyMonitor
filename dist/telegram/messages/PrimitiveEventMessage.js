@@ -3,7 +3,7 @@ export async function getMessage_primitiveEvent(contractAddress, eventName, cont
     const txHashUrlEtherscan = getTxHashURLfromEtherscan(txHash);
     const urlContract = getAddressURL(contractAddress);
     return `
-New ${eventName} spotted in Contract${hyperlink(urlContract, contractName)}
+New ${eventName} spotted in${hyperlink(urlContract, contractName)}
 Links:${hyperlink(txHashUrlEtherscan, await shortenTxHash(txHash))} 🦛🦛🦛
 `;
 }
