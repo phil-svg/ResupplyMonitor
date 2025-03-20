@@ -3,17 +3,21 @@ import { getMessage_primitiveEvent } from '../../../telegram/messages/PrimitiveE
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 
 export async function plugTo_InsurancePool(eventEmitter: any) {
+  const solvedEvents = new Set(['foo']);
+  const blacklistedEvents = new Set(['Transfer', 'bar']);
   registerHandler(async (logs) => {
     const events = await fetchEventsRealTime(logs, address_InsurancePool, getABI_InsurancePool(), 'AllEvents');
     if (events.length > 0) {
-      events.forEach(async (event: any) => {
+      for (const event of events) {
+        if (solvedEvents.has(event.event) || blacklistedEvents.has(event.event)) continue;
+
         const contractAddress = address_InsurancePool;
         const eventName = event.event;
         const contractName = 'InsurancePool';
         const txHash = event.transactionHash;
         const message = await getMessage_primitiveEvent(contractAddress, eventName, contractName, txHash);
         eventEmitter.emit('newMessage', message);
-      });
+      }
     }
   });
 }
