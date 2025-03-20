@@ -1,6 +1,9 @@
+import { threshold_erc20_transfer } from '../../ResupplyBot.js';
 import { getAddressURL, getTxHashURLfromEtherscan, hyperlink, shortenTxHash } from '../TelegramBot.js';
 export async function getMessage_erc20(address, tokenName, tokenDecimals, event) {
     const amount = event.returnValues.value / 10 ** tokenDecimals;
+    if (amount <= threshold_erc20_transfer)
+        return;
     const txHashUrlEtherscan = getTxHashURLfromEtherscan(event.transactionHash);
     return `
 Transfer of ${Number(amount.toFixed(0)).toLocaleString()} ${tokenName} spotted

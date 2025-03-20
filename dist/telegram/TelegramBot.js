@@ -43,6 +43,8 @@ export function send(bot, message, groupID) {
         // console.log("This message has already been sent to this group in the past 30 seconds.");
         return;
     }
+    if (!message)
+        return;
     if (message.includes('undefined') || message.includes('NaN')) {
         console.log('Error: Invalid message content:', message);
         return;

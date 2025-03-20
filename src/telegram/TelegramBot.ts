@@ -53,6 +53,8 @@ export function send(bot: any, message: string, groupID: number) {
     return;
   }
 
+  if (!message) return;
+
   if (message.includes('undefined') || message.includes('NaN')) {
     console.log('Error: Invalid message content:', message);
     return;
