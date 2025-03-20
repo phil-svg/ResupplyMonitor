@@ -8,7 +8,7 @@ export async function plugTo_InsurancePool(eventEmitter) {
             events.forEach(async (event) => {
                 const contractAddress = address_InsurancePool;
                 const eventName = event.event;
-                const contractName = 'RInsurancePoolSUP';
+                const contractName = 'InsurancePoolSUP';
                 const txHash = event.transactionHash;
                 const message = await getMessage_primitiveEvent(contractAddress, eventName, contractName, txHash);
                 eventEmitter.emit('newMessage', message);
