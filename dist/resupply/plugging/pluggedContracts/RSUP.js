@@ -23,8 +23,8 @@ export async function plugTo_RSUP(eventEmitter) {
     registerHandler(async (logs) => {
         const events = await fetchEventsRealTime(logs, address_RSUP, getABI_RSUP(), 'Transfer');
         if (events.length > 0) {
-            events.forEach((event) => {
-                const message = getMessage_erc20(address_RSUP, 'RSUP', 18, event);
+            events.forEach(async (event) => {
+                const message = await getMessage_erc20(address_RSUP, 'RSUP', 18, event);
                 eventEmitter.emit('newMessage', message);
             });
         }
