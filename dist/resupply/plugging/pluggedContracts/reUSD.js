@@ -4,7 +4,7 @@ import { getMessage_primitiveEvent } from '../../../telegram/messages/PrimitiveE
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 export async function plugTo_reUSD(eventEmitter) {
     const solvedEvents = new Set(['Transfer', 'foo']);
-    const blacklistedEvents = new Set(['Approve', 'bar']);
+    const blacklistedEvents = new Set(['Approval', 'bar']);
     registerHandler(async (logs) => {
         const events = await fetchEventsRealTime(logs, address_reUSD, getABI_reUSD(), 'AllEvents');
         if (events.length > 0) {

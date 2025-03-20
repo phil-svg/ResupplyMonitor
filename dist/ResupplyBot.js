@@ -9,7 +9,7 @@ const ENV = 'prod';
 const eventEmitter = new EventEmitter();
 // runs the app for a specific block, once.
 async function histo() {
-    const blockNumber = 22034863; // 22082675 added market, 22034863 lunch
+    const blockNumber = 22087804; //22034863 lunch, 22082675 added market, 22087804 another thing
     await telegramBotMain(ENV, eventEmitter);
     await startListeningToAllContracts(eventEmitter);
     await getLogsForBlock(blockNumber);

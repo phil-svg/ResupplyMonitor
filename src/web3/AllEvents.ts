@@ -23,16 +23,6 @@ export async function startListeningToAllEvents(): Promise<any> {
     let lastBlockNumber = await web3HttpProvider.eth.getBlockNumber();
     await getLogsForBlock(lastBlockNumber);
 
-    // Periodic block update check every 10 minutes
-    setInterval(async () => {
-      try {
-        lastBlockNumber = (await web3HttpProvider.eth.getBlockNumber()) - 1;
-      } catch (err) {
-        console.error('Error during periodic block check:', err);
-      }
-      // }, 10 * 60 * 1000);
-    }, 60 * 1000);
-
     while (true) {
       await new Promise((resolve) => setTimeout(resolve, 12 * 1000));
 
