@@ -9,28 +9,28 @@ async function getTotalAssets(event) {
 }
 export async function getMessage_InsurancePool_Cooldown(event) {
     const totalAssets = await getTotalAssets(event);
-    const lastLine = await getLastLine(event.transactionHash);
+    const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     return `
 ⏳${await getUser(event.returnValues.account)} put ${formatForPrint(event.returnValues.amount / 1e18)}${hyperlink_reUSD()} into Cooldown in${hyperlink_InsurancePool()}
-Balance InsurancePool: ${formatForPrint(totalAssets / 1e18)}${hyperlink_reUSD()}
+Insurance Pool Balance: ${formatForPrint(totalAssets / 1e18)}${hyperlink_reUSD()}
 ${lastLine}  
   `;
 }
 export async function getMessage_InsurancePool_Deposit(event) {
     const totalAssets = await getTotalAssets(event);
-    const lastLine = await getLastLine(event.transactionHash);
+    const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     return `
 🚀${await getUser(event.returnValues.sender)} deposited ${formatForPrint(event.returnValues.assets / 1e18)}${hyperlink_reUSD()} into${hyperlink_InsurancePool()}
-Balance InsurancePool: ${formatForPrint(totalAssets / 1e18)}${hyperlink_reUSD()}
+Insurance Pool Balance: ${formatForPrint(totalAssets / 1e18)}${hyperlink_reUSD()}
 ${lastLine}  
     `;
 }
 export async function getMessage_InsurancePool_RewardPaid(event) {
     const totalAssets = await getTotalAssets(event);
-    const lastLine = await getLastLine(event.transactionHash);
+    const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     return `
 User${await getUser(event.returnValues._user)} received ${formatForPrint(event.returnValues._rewardAmount / 1e18)}${hyperlink_reUSD()} from${hyperlink_InsurancePool()}
-Balance InsurancePool: ${formatForPrint(totalAssets / 1e18)}${hyperlink_reUSD()}
+Insurance Pool Balance: ${formatForPrint(totalAssets / 1e18)}${hyperlink_reUSD()}
 ${lastLine}  
   `;
 }

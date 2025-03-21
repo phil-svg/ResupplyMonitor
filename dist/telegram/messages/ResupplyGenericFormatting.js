@@ -1,5 +1,8 @@
+import { getContract_reUSD } from '../../getters/resupply/reUSD.js';
+import { web3Call } from '../../web3/Web3Basics.js';
 import { threshold_erc20_transfer } from '../Thresholds.js';
-import { getAddressURL, getTxHashURLfromEtherscan, hyperlink, shortenTxHash } from './TelegramFormatting.js';
+import { hyperlink_reUSD } from './Hyperlinks.js';
+import { formatForPrint, getAddressURL, getTxHashURLfromEtherscan, hyperlink, shortenTxHash, } from './TelegramFormatting.js';
 export async function getMessage_erc20(address, tokenName, tokenDecimals, event) {
     const amount = event.returnValues.value / 10 ** tokenDecimals;
     if (amount <= threshold_erc20_transfer)
@@ -18,8 +21,10 @@ New ${eventName} spotted in${hyperlink(urlContract, contractName)}
 Links:${hyperlink(txHashUrlEtherscan, await shortenTxHash(txHash))} 🦛🦛🦛
 `;
 }
-export async function getLastLine(txHash) {
+export async function getLastLine(txHash, blockNumber) {
+    const totalReUSDBorrowed = (await web3Call(getContract_reUSD(), 'totalSupply', [], blockNumber)) / 1e18;
     const txHashUrlEtherscan = getTxHashURLfromEtherscan(txHash);
-    return `Links:${hyperlink(txHashUrlEtherscan, await shortenTxHash(txHash))} 🦛🦛🦛`;
+    return `Total${hyperlink_reUSD()} borrowed: ${formatForPrint(totalReUSDBorrowed)}
+Links:${hyperlink(txHashUrlEtherscan, await shortenTxHash(txHash))} 🦛🦛🦛`;
 }
 //# sourceMappingURL=ResupplyGenericFormatting.js.map

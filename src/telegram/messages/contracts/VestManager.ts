@@ -33,7 +33,7 @@ async function getRSUPCirculatingSupply(event: any): Promise<number | null> {
 }
 
 export async function getMessage_VestManager_Claimed(event: any): Promise<string | null> {
-  const lastLine = await getLastLine(event.transactionHash);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
 
   const circulatingSupplyRSUP = await getRSUPCirculatingSupply(event);
 
@@ -47,7 +47,7 @@ ${lastLine}
 }
 
 export async function getMessage_VestManager_TokenRedeemed(event: any): Promise<string | null> {
-  const lastLine = await getLastLine(event.transactionHash);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
 
   const circulatingSupplyRSUP = await getRSUPCirculatingSupply(event);
 
@@ -65,7 +65,7 @@ export async function getMessage_VestManager_VestCreated(event: any): Promise<st
   return null;
 }
 export async function getMessage_VestManager_AirdropClaimed(event: any): Promise<string | null> {
-  const lastLine = await getLastLine(event.transactionHash);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
   const circulatingSupplyRSUP = await getRSUPCirculatingSupply(event);
 
   const allocationTypeMap: Record<string, string> = {

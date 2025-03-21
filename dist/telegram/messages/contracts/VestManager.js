@@ -32,7 +32,7 @@ async function getRSUPCirculatingSupply(event) {
     }
 }
 export async function getMessage_VestManager_Claimed(event) {
-    const lastLine = await getLastLine(event.transactionHash);
+    const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     const circulatingSupplyRSUP = await getRSUPCirculatingSupply(event);
     return `
 🎉${await getUser(event.returnValues.account)} claimed ${formatForPrint(event.returnValues.amount / 1e18)}${hyperlink_RSUP()} from Vesting
@@ -41,7 +41,7 @@ ${lastLine}
   `;
 }
 export async function getMessage_VestManager_TokenRedeemed(event) {
-    const lastLine = await getLastLine(event.transactionHash);
+    const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     const circulatingSupplyRSUP = await getRSUPCirculatingSupply(event);
     return `
 🔁${await getUser(event.returnValues.redeemer)} redeemed ${formatForPrint(event.returnValues.amount / 1e18)}${prisma(event.returnValues.token)} via Vesting
@@ -55,7 +55,7 @@ export async function getMessage_VestManager_VestCreated(event) {
 }
 export async function getMessage_VestManager_AirdropClaimed(event) {
     var _a;
-    const lastLine = await getLastLine(event.transactionHash);
+    const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     const circulatingSupplyRSUP = await getRSUPCirculatingSupply(event);
     const allocationTypeMap = {
         '0': 'Perma Stake',

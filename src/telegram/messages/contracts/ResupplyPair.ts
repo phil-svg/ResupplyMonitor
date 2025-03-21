@@ -52,7 +52,7 @@ async function getResupplyPairAggregatedInfo(
   const totalBorrowAmount = pairAccounting._totalBorrowAmount / 1e18;
   const totalCollateral = await convertSharesToAmount(event, pairName, collateralAddress, totalCollateralShares);
 
-  return `Market Stats: Borrowed ${formatForPrint(totalBorrowAmount)}${hyperlink_reUSD()} | Supplied ${formatForPrint(
+  return `Total Borrowed ${formatForPrint(totalBorrowAmount)}${hyperlink_reUSD()} | Total Supplied ${formatForPrint(
     totalCollateral
   )}${getCollateral(pairName)} | Cost ${formatForPrint(borrowRateReUSD)}%`;
 }
@@ -75,7 +75,7 @@ export async function getMessage_ResupplyPair_RewardPaid(
   pairAddress: string,
   pairName: string
 ): Promise<string | null> {
-  const lastLine = await getLastLine(event.transactionHash);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
 
   return `
 🎁${await getUser(event.returnValues._user)} received ${formatForPrint(
@@ -98,7 +98,7 @@ export async function getMessage_ResupplyPair_AddCollateral(
     collateralAddress
   );
 
-  const lastLine = await getLastLine(event.transactionHash);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
 
   const collateral = getCollateral(pairName);
 
@@ -130,7 +130,7 @@ export async function getMessage_ResupplyPair_Borrow(
     pairName,
     collateralAddress
   );
-  const lastLine = await getLastLine(event.transactionHash);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
 
   return `
 💸${await getUser(event.returnValues._borrower)} borrowed ${formatForPrint(
@@ -171,7 +171,7 @@ export async function getMessage_ResupplyPair_RemoveCollateral(
     collateralAddress
   );
 
-  const lastLine = await getLastLine(event.transactionHash);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
 
   return `
 🏚️${await getUser(event.returnValues._borrower)} removed ${formatForPrint(
@@ -195,7 +195,7 @@ export async function getMessage_ResupplyPair_Repay(
     collateralAddress
   );
 
-  const lastLine = await getLastLine(event.transactionHash);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
 
   return `
 💵${await getUser(event.returnValues.borrower)} repaid ${formatForPrint(
@@ -228,7 +228,7 @@ export async function getMessage_ResupplyPair_Redeemed(
     collateralAddress
   );
 
-  const lastLine = await getLastLine(event.transactionHash);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
 
   return `
 🔓${await getUser(event.returnValues._caller)} redeemed ${formatForPrint(
