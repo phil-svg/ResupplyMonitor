@@ -8,14 +8,20 @@ export const allMarketsInfoPromise = loadMarkets();
 Returns all PairAddresses with their resupplyPairNames
 */
 async function loadMarkets(): Promise<
-  { resupplyPairAddress: string; resupplyPairName: string; writeOffTokenAddress: string }[] | null
+  | { resupplyPairAddress: string; resupplyPairName: string; writeOffTokenAddress: string; collateralAddress: string }[]
+  | null
 > {
   try {
     const registry = getContract_ResupplyRegistry();
     const allPairAddresses: string[] = await web3Call(registry, 'getAllPairAddresses', []);
 
     const batchSize = 10;
-    const results: { resupplyPairAddress: string; resupplyPairName: string; writeOffTokenAddress: string }[] = [];
+    const results: {
+      resupplyPairAddress: string;
+      resupplyPairName: string;
+      writeOffTokenAddress: string;
+      collateralAddress: string;
+    }[] = [];
 
     for (let i = 0; i < allPairAddresses.length; i += batchSize) {
       const batch = allPairAddresses.slice(i, i + batchSize);
@@ -25,7 +31,8 @@ async function loadMarkets(): Promise<
             const contract = new web3HttpProvider.eth.Contract(getABI_ResupplyPair(), resupplyPairAddress);
             const resupplyPairName = await web3Call(contract, 'name', []);
             const writeOffTokenAddress = await web3Call(contract, 'redemptionWriteOff', []);
-            return { resupplyPairAddress, resupplyPairName, writeOffTokenAddress };
+            const collateralAddress = await web3Call(contract, 'collateral', []);
+            return { resupplyPairAddress, resupplyPairName, writeOffTokenAddress, collateralAddress };
           } catch {
             return null;
           }
@@ -35,8 +42,14 @@ async function loadMarkets(): Promise<
       if (batchResults.includes(null)) return null;
       results.push(
         ...batchResults.filter(
-          (res): res is { resupplyPairAddress: string; resupplyPairName: string; writeOffTokenAddress: string } =>
-            res !== null
+          (
+            res
+          ): res is {
+            resupplyPairAddress: string;
+            resupplyPairName: string;
+            writeOffTokenAddress: string;
+            collateralAddress: string;
+          } => res !== null
         )
       );
     }

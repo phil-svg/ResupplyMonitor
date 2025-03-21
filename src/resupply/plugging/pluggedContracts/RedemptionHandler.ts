@@ -1,5 +1,5 @@
 import { address_RedemptionHandler, getABI_RedemptionHandler } from '../../../getters/resupply/RedemptionHandler.js';
-import { getMessage_primitiveEvent } from '../../../telegram/messages/PrimitiveEventMessage.js';
+import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 
 export async function plugTo_RedemptionHandler(eventEmitter: any) {

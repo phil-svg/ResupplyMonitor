@@ -18,7 +18,8 @@ async function loadMarkets() {
                     const contract = new web3HttpProvider.eth.Contract(getABI_ResupplyPair(), resupplyPairAddress);
                     const resupplyPairName = await web3Call(contract, 'name', []);
                     const writeOffTokenAddress = await web3Call(contract, 'redemptionWriteOff', []);
-                    return { resupplyPairAddress, resupplyPairName, writeOffTokenAddress };
+                    const collateralAddress = await web3Call(contract, 'collateral', []);
+                    return { resupplyPairAddress, resupplyPairName, writeOffTokenAddress, collateralAddress };
                 }
                 catch (_a) {
                     return null;

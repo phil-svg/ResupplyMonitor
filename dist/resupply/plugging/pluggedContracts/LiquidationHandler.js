@@ -1,5 +1,5 @@
 import { address_LiquidationHandler, getABI_LiquidationHandler } from '../../../getters/resupply/LiquidationHandler.js';
-import { getMessage_primitiveEvent } from '../../../telegram/messages/PrimitiveEventMessage.js';
+import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 export async function plugTo_LiquidationHandler(eventEmitter) {
     registerHandler(async (logs) => {

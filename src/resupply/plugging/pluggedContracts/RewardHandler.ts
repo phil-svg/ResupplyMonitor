@@ -1,5 +1,5 @@
 import { address_RewardHandler, getABI_RewardHandler } from '../../../getters/resupply/RewardHandler.js';
-import { getMessage_primitiveEvent } from '../../../telegram/messages/PrimitiveEventMessage.js';
+import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 
 export async function plugTo_RewardHandler(eventEmitter: any) {
@@ -9,7 +9,7 @@ export async function plugTo_RewardHandler(eventEmitter: any) {
       events.forEach(async (event: any) => {
         const contractAddress = address_RewardHandler;
         const eventName = event.event;
-        const contractName = 'RSUP';
+        const contractName = 'RewardHandler';
         const txHash = event.transactionHash;
         const message = await getMessage_primitiveEvent(contractAddress, eventName, contractName, txHash);
         eventEmitter.emit('newMessage', message);

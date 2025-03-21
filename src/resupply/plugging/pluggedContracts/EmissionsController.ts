@@ -2,7 +2,7 @@ import {
   address_EmissionsController,
   getABI_EmissionsController,
 } from '../../../getters/resupply/EmissionsController.js';
-import { getMessage_primitiveEvent } from '../../../telegram/messages/PrimitiveEventMessage.js';
+import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 
 export async function plugTo_EmissionsController(eventEmitter: any) {

@@ -1,5 +1,5 @@
 import { address_AutoStakeCallback, getABI_AutoStakeCallback } from '../../../getters/resupply/AutoStakeCallback.js';
-import { getMessage_primitiveEvent } from '../../../telegram/messages/PrimitiveEventMessage.js';
+import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 
 export async function plugTo_AutoStakeCallback(eventEmitter: any) {

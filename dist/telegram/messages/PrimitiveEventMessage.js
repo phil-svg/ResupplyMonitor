@@ -1,4 +1,4 @@
-import { getAddressURL, getTxHashURLfromEtherscan, hyperlink, shortenTxHash } from '../TelegramBot.js';
+import { getAddressURL, getTxHashURLfromEtherscan, hyperlink, shortenTxHash } from './TelegramFormatting.js';
 export async function getMessage_primitiveEvent(contractAddress, eventName, contractName, txHash) {
     const txHashUrlEtherscan = getTxHashURLfromEtherscan(txHash);
     const urlContract = getAddressURL(contractAddress);

@@ -1,5 +1,5 @@
 import { address_ResupplyRegistry, getABI_ResupplyRegistry } from '../../../getters/resupply/ResupplyRegistry.js';
-import { getMessage_primitiveEvent } from '../../../telegram/messages/PrimitiveEventMessage.js';
+import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 
 export async function plugTo_ResupplyRegistry(eventEmitter: any) {
