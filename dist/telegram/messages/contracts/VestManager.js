@@ -1,6 +1,5 @@
 import { address_cvxPrisma, address_PRISMA, address_yPrisma } from '../../../getters/OtherToken.js';
 import { address_EmissionsController } from '../../../getters/resupply/EmissionsController.js';
-import { address_GovStaker } from '../../../getters/resupply/GovStaker.js';
 import { getContract_RSUP } from '../../../getters/resupply/RSUP.js';
 import { address_SimpleRewardStreamer3 } from '../../../getters/resupply/SimpleRewardStreamer3.js';
 import { address_VestManager } from '../../../getters/resupply/VestManager.js';
@@ -19,12 +18,11 @@ function prisma(address) {
 async function getRSUPCirculatingSupply(event) {
     try {
         const contract = getContract_RSUP();
-        const totalSupply = await web3Call(contract, 'totalSupply', []);
-        const balanceSimpleRewardStreamer = await web3Call(contract, 'balanceOf', [address_SimpleRewardStreamer3]);
-        const balanceVestManager = await web3Call(contract, 'balanceOf', [address_VestManager]);
-        const balanceEmissionsController = await web3Call(contract, 'balanceOf', [address_EmissionsController]);
-        const balanceGovStaker = await web3Call(contract, 'balanceOf', [address_GovStaker]);
-        const circulatingSupply = totalSupply - balanceSimpleRewardStreamer - balanceVestManager - balanceEmissionsController - balanceGovStaker;
+        const totalSupply = await web3Call(contract, 'totalSupply', [], event.blockNumber);
+        const balanceSimpleRewardStreamer = await web3Call(contract, 'balanceOf', [address_SimpleRewardStreamer3], event.blockNumber);
+        const balanceVestManager = await web3Call(contract, 'balanceOf', [address_VestManager], event.blockNumber);
+        const balanceEmissionsController = await web3Call(contract, 'balanceOf', [address_EmissionsController], event.blockNumber);
+        const circulatingSupply = totalSupply - balanceSimpleRewardStreamer - balanceVestManager - balanceEmissionsController;
         return circulatingSupply / 1e18;
     }
     catch (_a) {

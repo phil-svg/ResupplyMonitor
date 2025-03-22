@@ -18,14 +18,23 @@ function prisma(address: string) {
 async function getRSUPCirculatingSupply(event: any): Promise<number | null> {
   try {
     const contract = getContract_RSUP();
-    const totalSupply = await web3Call(contract, 'totalSupply', []);
-    const balanceSimpleRewardStreamer = await web3Call(contract, 'balanceOf', [address_SimpleRewardStreamer3]);
-    const balanceVestManager = await web3Call(contract, 'balanceOf', [address_VestManager]);
-    const balanceEmissionsController = await web3Call(contract, 'balanceOf', [address_EmissionsController]);
-    const balanceGovStaker = await web3Call(contract, 'balanceOf', [address_GovStaker]);
+    const totalSupply = await web3Call(contract, 'totalSupply', [], event.blockNumber);
+    const balanceSimpleRewardStreamer = await web3Call(
+      contract,
+      'balanceOf',
+      [address_SimpleRewardStreamer3],
+      event.blockNumber
+    );
+    const balanceVestManager = await web3Call(contract, 'balanceOf', [address_VestManager], event.blockNumber);
+    const balanceEmissionsController = await web3Call(
+      contract,
+      'balanceOf',
+      [address_EmissionsController],
+      event.blockNumber
+    );
 
     const circulatingSupply =
-      totalSupply - balanceSimpleRewardStreamer - balanceVestManager - balanceEmissionsController - balanceGovStaker;
+      totalSupply - balanceSimpleRewardStreamer - balanceVestManager - balanceEmissionsController;
     return circulatingSupply / 1e18;
   } catch {
     return null;
