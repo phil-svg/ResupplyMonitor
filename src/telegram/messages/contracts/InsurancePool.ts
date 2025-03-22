@@ -1,6 +1,6 @@
 import { address_InsurancePool, getABI_InsurancePool } from '../../../getters/resupply/InsurancePool.js';
 import { web3Call, web3HttpProvider } from '../../../web3/Web3Basics.js';
-import { getUser, hyperlink_InsurancePool, hyperlink_reUSD } from '../Hyperlinks.js';
+import { getUser, hyperlink_InsurancePool, hyperlink_reUSD, hyperlink_RSUP } from '../Hyperlinks.js';
 import { getLastLine } from '../ResupplyGenericFormatting.js';
 import { formatForPrint } from '../TelegramFormatting.js';
 
@@ -45,7 +45,7 @@ export async function getMessage_InsurancePool_RewardPaid(event: any): Promise<s
   return `
 User${await getUser(event.returnValues._user)} received ${formatForPrint(
     event.returnValues._rewardAmount / 1e18
-  )}${hyperlink_reUSD()} from${hyperlink_InsurancePool()}
+  )}${hyperlink_RSUP()} from${hyperlink_InsurancePool()}
 Insurance Pool Balance: ${formatForPrint(totalAssets / 1e18)}${hyperlink_reUSD()}
 ${lastLine}  
   `;
