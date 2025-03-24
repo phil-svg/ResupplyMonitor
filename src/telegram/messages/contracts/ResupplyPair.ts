@@ -15,6 +15,7 @@ import {
 } from '../Hyperlinks.js';
 import { getLastLine } from '../ResupplyGenericFormatting.js';
 import { formatForPrint, getTokenURL, hyperlink } from '../TelegramFormatting.js';
+import { extractPairName } from '../../../resupply/LoadAllMarkets.js';
 
 function getCollateral(name: string) {
   if (name.includes('CurveLend')) {
@@ -80,7 +81,10 @@ export async function getMessage_ResupplyPair_RewardPaid(
   return `
 🎁${await getUser(event.returnValues._user)} received ${formatForPrint(
     event.returnValues._rewardAmount / 1e18
-  )}${getRewardToken(event.returnValues._rewardToken)} from${hyperlink_ResupplyPair(pairAddress, pairName)}
+  )}${getRewardToken(event.returnValues._rewardToken)} from${hyperlink_ResupplyPair(
+    pairAddress,
+    extractPairName(pairName)
+  )}
 ${lastLine}  
   `;
 }
@@ -112,7 +116,7 @@ export async function getMessage_ResupplyPair_AddCollateral(
   return `
 🏦${await getUser(event.returnValues.borrower)} added ${formatForPrint(
     collateralAmount
-  )}${collateral} to${hyperlink_ResupplyPair(pairAddress, pairName)}
+  )}${collateral} to${hyperlink_ResupplyPair(pairAddress, extractPairName(pairName))}
 ${lineResupplyPairAggregatedInfo}  
 ${lastLine}  
   `;
@@ -135,7 +139,7 @@ export async function getMessage_ResupplyPair_Borrow(
   return `
 💸${await getUser(event.returnValues._borrower)} borrowed ${formatForPrint(
     event.returnValues._borrowAmount / 1e18
-  )}${hyperlink_reUSD()} from${hyperlink_ResupplyPair(pairAddress, pairName)}
+  )}${hyperlink_reUSD()} from${hyperlink_ResupplyPair(pairAddress, extractPairName(pairName))}
 ${lineResupplyPairAggregatedInfo}  
 ${lastLine}  
   `;
@@ -176,7 +180,7 @@ export async function getMessage_ResupplyPair_RemoveCollateral(
   return `
 🏚️${await getUser(event.returnValues._borrower)} removed ${formatForPrint(
     collateralAmount
-  )}${collateral} from${hyperlink_ResupplyPair(pairAddress, pairName)}
+  )}${collateral} from${hyperlink_ResupplyPair(pairAddress, extractPairName(pairName))}
 ${lineResupplyPairAggregatedInfo}  
 ${lastLine}  
   `;
@@ -200,7 +204,7 @@ export async function getMessage_ResupplyPair_Repay(
   return `
 💵${await getUser(event.returnValues.borrower)} repaid ${formatForPrint(
     event.returnValues.amountToRepay / 1e18
-  )}${hyperlink_reUSD()} to${hyperlink_ResupplyPair(pairAddress, pairName)}
+  )}${hyperlink_reUSD()} to${hyperlink_ResupplyPair(pairAddress, extractPairName(pairName))}
 ${lineResupplyPairAggregatedInfo}  
 ${lastLine}  
   `;
@@ -236,7 +240,7 @@ export async function getMessage_ResupplyPair_Redeemed(
   )}${hyperlink_reUSD()} and freed ${formatForPrint(collateralAmount)}${collateral}
 Protocol Fee: ${formatForPrint(
     event.returnValues._protocolFee / 1e18
-  )}${hyperlink_reUSD()} | Market:${hyperlink_ResupplyPair(pairAddress, pairName)}
+  )}${hyperlink_reUSD()} | Market:${hyperlink_ResupplyPair(pairAddress, extractPairName(pairName))}
 ${lineResupplyPairAggregatedInfo}  
 ${lastLine}  
   `;

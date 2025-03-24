@@ -3,8 +3,7 @@ import { getLastLine } from '../ResupplyGenericFormatting.js';
 import { formatForPrint } from '../TelegramFormatting.js';
 
 export async function getMessage_GovStaker_Staked(event: any): Promise<string | null> {
-  console.log(event);
-  const lastLine = await getLastLine(event.transactionHash);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
 
   return `
 🚀${await getUser(event.returnValues.account)} staked ${formatForPrint(

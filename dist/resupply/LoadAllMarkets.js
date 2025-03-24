@@ -35,4 +35,11 @@ async function loadMarkets() {
         return null;
     }
 }
+export function extractPairName(fullName) {
+    const match = fullName.match(/Resupply Pair \((.*?): (.*?)\)/);
+    if (match && match[2]) {
+        return match[2];
+    }
+    return fullName;
+}
 //# sourceMappingURL=LoadAllMarkets.js.map

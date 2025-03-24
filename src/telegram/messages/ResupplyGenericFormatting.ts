@@ -1,4 +1,5 @@
 import { getContract_reUSD } from '../../getters/resupply/reUSD.js';
+import { getTotalFeesOngoingEpoch } from '../../resupply/UtilFunctions.js';
 import { web3Call } from '../../web3/Web3Basics.js';
 import { threshold_erc20_transfer } from '../Thresholds.js';
 import { hyperlink_reUSD } from './Hyperlinks.js';
@@ -42,6 +43,12 @@ Links:${hyperlink(txHashUrlEtherscan, await shortenTxHash(txHash))} 🦛🦛🦛
 export async function getLastLine(txHash: string, blockNumber: number): Promise<string> {
   const totalReUSDBorrowed = (await web3Call(getContract_reUSD(), 'totalSupply', [], blockNumber)) / 1e18;
   const txHashUrlEtherscan = getTxHashURLfromEtherscan(txHash);
-  return `Total${hyperlink_reUSD()} borrowed: ${formatForPrint(totalReUSDBorrowed)}
-Links:${hyperlink(txHashUrlEtherscan, await shortenTxHash(txHash))} 🦛🦛🦛`;
+  const shortenedTx = await shortenTxHash(txHash);
+
+  const { totalFees } = await getTotalFeesOngoingEpoch();
+
+  return `Total${hyperlink_reUSD()} borrowed: ${formatForPrint(totalReUSDBorrowed)} | Total Fees: ${formatForPrint(
+    totalFees
+  )}${hyperlink_reUSD()} (since Thursday)
+Links:${hyperlink(txHashUrlEtherscan, shortenedTx)} 🦛🦛🦛`;
 }

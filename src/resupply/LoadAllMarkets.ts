@@ -59,3 +59,11 @@ async function loadMarkets(): Promise<
     return null;
   }
 }
+
+export function extractPairName(fullName: string): string {
+  const match = fullName.match(/Resupply Pair \((.*?): (.*?)\)/);
+  if (match && match[2]) {
+    return match[2];
+  }
+  return fullName;
+}
