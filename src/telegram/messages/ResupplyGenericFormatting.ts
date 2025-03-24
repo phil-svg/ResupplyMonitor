@@ -47,8 +47,8 @@ export async function getLastLine(txHash: string, blockNumber: number): Promise<
 
   const { totalFees } = await getTotalFeesOngoingEpoch();
 
-  return `Total${hyperlink_reUSD()} borrowed: ${formatForPrint(totalReUSDBorrowed)} | Total Fees: ${formatForPrint(
-    totalFees
-  )}${hyperlink_reUSD()} (since Thursday)
+  return `Total${hyperlink_reUSD()} borrowed: ${formatForPrint(
+    totalReUSDBorrowed
+  )} | Total Epoch Fees: ${formatForPrint(totalFees)}${hyperlink_reUSD()}
 Links:${hyperlink(txHashUrlEtherscan, shortenedTx)} 🦛🦛🦛`;
 }

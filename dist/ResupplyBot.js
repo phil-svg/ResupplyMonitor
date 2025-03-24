@@ -5,8 +5,8 @@ import { allMarketsInfoPromise } from './resupply/LoadAllMarkets.js';
 import { startListeningToAllContracts } from './resupply/plugging/Wrapper.js';
 console.clear();
 export const threshold_erc20_transfer = 100;
-const ENV = 'prod';
-// const ENV = 'test';
+// const ENV = 'prod';
+const ENV = 'test';
 const eventEmitter = new EventEmitter();
 // runs the app for a specific block, once.
 async function histo() {
