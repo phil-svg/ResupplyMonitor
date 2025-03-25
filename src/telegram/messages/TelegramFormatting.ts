@@ -77,6 +77,8 @@ function getLabels() {
     '0xB28Ca7e465C452cE4252598e0Bc96Aeba553CF82': 'Odos Router',
     '0x9008D19f58AAbD9eD0D60971565AA8510560ab41': 'Cow Swap',
     '0x45312ea0eFf7E09C83CBE249fa1d7598c4C8cd4e': 'Curve Router v1.2',
+    '0x12341234B35c8a48908c716266db79CAeA0100E8': 'Yearn PermaStaker',
+    '0xCCCCCccc94bFeCDd365b4Ee6B86108fC91848901': 'Convex PermaStaker',
   };
   return labels;
 }
