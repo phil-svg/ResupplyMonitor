@@ -49,6 +49,6 @@ export async function getLastLine(txHash: string, blockNumber: number): Promise<
 
   return `Total${hyperlink_reUSD()} borrowed: ${formatForPrint(
     totalReUSDBorrowed
-  )} | Total Epoch Fees: ${formatForPrint(totalFees)}${hyperlink_reUSD()}
+  )} | Total Claimable Fees: ${formatForPrint(totalFees)}${hyperlink_reUSD()}
 Links:${hyperlink(txHashUrlEtherscan, shortenedTx)} 🦛🦛🦛`;
 }

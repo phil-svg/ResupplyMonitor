@@ -27,7 +27,7 @@ export async function getLastLine(txHash, blockNumber) {
     const txHashUrlEtherscan = getTxHashURLfromEtherscan(txHash);
     const shortenedTx = await shortenTxHash(txHash);
     const { totalFees } = await getTotalFeesOngoingEpoch();
-    return `Total${hyperlink_reUSD()} borrowed: ${formatForPrint(totalReUSDBorrowed)} | Total Epoch Fees: ${formatForPrint(totalFees)}${hyperlink_reUSD()}
+    return `Total${hyperlink_reUSD()} borrowed: ${formatForPrint(totalReUSDBorrowed)} | Total Claimable Fees: ${formatForPrint(totalFees)}${hyperlink_reUSD()}
 Links:${hyperlink(txHashUrlEtherscan, shortenedTx)} 🦛🦛🦛`;
 }
 //# sourceMappingURL=ResupplyGenericFormatting.js.map
