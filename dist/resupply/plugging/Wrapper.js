@@ -9,6 +9,8 @@ import { plugTo_ResupplyPair } from './pluggedContracts/ResupplyPair.js';
 import { plugTo_ResupplyPairDeployer } from './pluggedContracts/ResupplyPairDeployer.js';
 import { plugTo_ResupplyRegistry } from './pluggedContracts/ResupplyRegistry.js';
 import { plugTo_reUSD } from './pluggedContracts/reUSD.js';
+import { plugTo_reUSD_scrvUSD } from './pluggedContracts/reUSD_scrvUSD.js';
+import { plugTo_reUSD_sfrxUSD } from './pluggedContracts/reUSD_sfrxUSD.js';
 import { plugTo_RewardHandler } from './pluggedContracts/RewardHandler.js';
 import { plugTo_RSUP } from './pluggedContracts/RSUP.js';
 import { plugTo_Swapper } from './pluggedContracts/Swapper.js';
@@ -33,5 +35,7 @@ export async function startListeningToAllContracts(eventEmitter) {
     await plugTo_Treasury(eventEmitter);
     await plugTo_VestManager(eventEmitter);
     await plugTo_Voter(eventEmitter);
+    await plugTo_reUSD_sfrxUSD(eventEmitter);
+    await plugTo_reUSD_scrvUSD(eventEmitter);
 }
 //# sourceMappingURL=Wrapper.js.map

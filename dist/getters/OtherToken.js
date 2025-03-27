@@ -5,4 +5,6 @@ export const address_crvUSD = '0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E';
 export const address_PRISMA = '0xdA47862a83dac0c112BA89c6abC2159b95afd71C';
 export const address_cvxPrisma = '0x34635280737b5BFe6c7DC2FC3065D60d66e78185';
 export const address_yPrisma = '0xe3668873D944E4A949DA05fc8bDE419eFF543882';
+export const address_scrvUSD = '0x0655977FEb2f289A4aB78af67BAB0d17aAb84367';
+export const address_sfrxUSD = '0xcf62F905562626CfcDD2261162a51fd02Fc9c5b6';
 //# sourceMappingURL=OtherToken.js.map

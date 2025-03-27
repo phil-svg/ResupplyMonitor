@@ -1,4 +1,6 @@
-import { address_CRV, address_crvUSD, address_CVX, address_cvxPrisma, address_frxUSD, address_PRISMA, address_yPrisma, } from '../../getters/OtherToken.js';
+import { address_reUSD_scrvUSD } from '../../getters/curve/reUSD_scrvUSD.js';
+import { address_reUSD_sfrxUSD } from '../../getters/curve/reUSD_sfrxUSD.js';
+import { address_CRV, address_crvUSD, address_CVX, address_cvxPrisma, address_frxUSD, address_PRISMA, address_scrvUSD, address_sfrxUSD, address_yPrisma, } from '../../getters/OtherToken.js';
 import { address_GovStaker } from '../../getters/resupply/GovStaker.js';
 import { address_InsurancePool } from '../../getters/resupply/InsurancePool.js';
 import { address_reUSD } from '../../getters/resupply/reUSD.js';
@@ -10,6 +12,12 @@ export async function getUser(userAddress) {
 }
 export function hyperlink_reUSD() {
     return `${hyperlink(getTokenURL(address_reUSD), 'reUSD')}`;
+}
+export function hyperlink_scrvUSD() {
+    return `${hyperlink(getTokenURL(address_scrvUSD), 'scrvUSD')}`;
+}
+export function hyperlink_sfrxUSD() {
+    return `${hyperlink(getTokenURL(address_sfrxUSD), 'sfrxUSD')}`;
 }
 export function hyperlink_RSUP() {
     return `${hyperlink(getTokenURL(address_RSUP), 'RSUP')}`;
@@ -40,6 +48,12 @@ export function hyperlink_InsurancePool() {
 }
 export function hyperlink_GovStaker() {
     return `${hyperlink(getTokenURL(address_GovStaker), 'GovStaker')}`;
+}
+export function hyperlink_reUSD_scrvUSD() {
+    return `${hyperlink(getTokenURL(address_reUSD_scrvUSD), 'Curve.fi reUSD/scrvUSD')}`;
+}
+export function hyperlink_reUSD_sfrxUSD() {
+    return `${hyperlink(getTokenURL(address_reUSD_sfrxUSD), 'Curve.fi reUSD/sfrxUSD')}`;
 }
 export function hyperlink_ResupplyPair(address, name) {
     return `${hyperlink(getTokenURL(address), name)}`;
