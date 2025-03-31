@@ -3,6 +3,8 @@ import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGe
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 
 export async function plugTo_LiquidationHandler(eventEmitter: any) {
+  const blacklistedEvents = new Set(['CollateralProccessed', 'SomeOtherEvent']);
+
   registerHandler(async (logs) => {
     const events = await fetchEventsRealTime(
       logs,
@@ -11,14 +13,27 @@ export async function plugTo_LiquidationHandler(eventEmitter: any) {
       'AllEvents'
     );
     if (events.length > 0) {
-      events.forEach(async (event: any) => {
-        const contractAddress = address_LiquidationHandler;
-        const eventName = event.event;
-        const contractName = 'LiquidationHandler';
-        const txHash = event.transactionHash;
-        const message = await getMessage_primitiveEvent(contractAddress, eventName, contractName, txHash);
-        eventEmitter.emit('newMessage', message);
-      });
+      const contractAddress = address_LiquidationHandler;
+      const contractName = 'LiquidationHandler';
+
+      const handlers: Record<string, (event: any) => Promise<void>> = {
+        Primitive: async (event) => {
+          const { event: eventName, transactionHash: txHash } = event;
+          const message = await getMessage_primitiveEvent(contractAddress, eventName, contractName, txHash);
+          eventEmitter.emit('newMessage', message);
+        },
+      };
+
+      for (const event of events) {
+        const { event: eventName } = event;
+
+        const handler = handlers[eventName];
+        if (handler) {
+          await handler(event);
+        } else if (!blacklistedEvents.has(eventName)) {
+          await handlers['Primitive'](event);
+        }
+      }
     }
   });
 }

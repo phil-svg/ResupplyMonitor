@@ -1,12 +1,11 @@
 import { getABI_ResupplyPair } from '../../../getters/resupply/ResupplyPair.js';
 import {
-  getMessage_ResupplyPair_RewardPaid,
   getMessage_ResupplyPair_AddCollateral,
   getMessage_ResupplyPair_Borrow,
-  getMessage_ResupplyPair_LeveragedPosition,
   getMessage_ResupplyPair_RemoveCollateral,
   getMessage_ResupplyPair_Repay,
   getMessage_ResupplyPair_Redeemed,
+  getMessage_ResupplyPair_Liquidate,
 } from '../../../telegram/messages/contracts/ResupplyPair.js';
 import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
@@ -29,6 +28,7 @@ async function handler(eventEmitter: any, address: string, name: string, collate
     'UpdateExchangeRate',
     'UpdateRate',
     'AddInterest',
+    'RepayWithCollateral',
   ]);
 
   const handlers: Record<string, (event: any) => Promise<void>> = {
@@ -60,6 +60,14 @@ async function handler(eventEmitter: any, address: string, name: string, collate
       const msg = await getMessage_ResupplyPair_Redeemed(event, address, name, collateralAddress);
       if (msg) eventEmitter.emit('newMessage', msg);
     },
+    Liquidate: async (event) => {
+      const msg = await getMessage_ResupplyPair_Liquidate(event, address, name, collateralAddress);
+      if (msg) eventEmitter.emit('newMessage', msg);
+    },
+    // RepayWithCollateral: async (event) => {
+    //   const msg = await getMessage_ResupplyPair_RepayWithCollateral(event, address, name, collateralAddress);
+    //   if (msg) eventEmitter.emit('newMessage', msg);
+    // },
     Primitive: async (event) => {
       const { event: eventName, transactionHash: txHash } = event;
       const msg = await getMessage_primitiveEvent(address, eventName, name, txHash);

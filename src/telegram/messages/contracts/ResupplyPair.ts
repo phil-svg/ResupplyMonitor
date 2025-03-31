@@ -245,3 +245,67 @@ ${lineResupplyPairAggregatedInfo}
 ${lastLine}  
   `;
 }
+
+export async function getMessage_ResupplyPair_Liquidate(
+  event: any,
+  pairAddress: string,
+  pairName: string,
+  collateralAddress: string
+): Promise<string | null> {
+  const borrower = await getUser(event.returnValues._borrower);
+  const repayAmount = Number(event.returnValues._amountLiquidatorToRepay) / 1e18;
+  const collateralShares = Number(event.returnValues._collateralForLiquidator) / 1e18;
+
+  const unlockedCollateral = await convertSharesToAmount(event, pairName, collateralAddress, collateralShares);
+
+  const lineResupplyPairAggregatedInfo = await getResupplyPairAggregatedInfo(
+    event,
+    pairAddress,
+    pairName,
+    collateralAddress
+  );
+
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
+
+  return `
+🧹 Position of${borrower} was liquidated
+Liquidator repaid ${formatForPrint(repayAmount)}${hyperlink_reUSD()} and received ${formatForPrint(
+    unlockedCollateral
+  )}${hyperlink_ResupplyPair(pairAddress, extractPairName(pairName))}
+${lineResupplyPairAggregatedInfo}  
+${lastLine}  
+  `;
+}
+
+export async function getMessage_ResupplyPair_RepayWithCollateral(
+  event: any,
+  pairAddress: string,
+  pairName: string,
+  collateralAddress: string
+): Promise<string | null> {
+  const borrower = await getUser(event.returnValues._borrower);
+  const collateral = getCollateral(pairName);
+
+  const collateralShares = Number(event.returnValues._collateralToSwap) / 1e18;
+  const repaidAmount = Number(event.returnValues._amountAssetOut) / 1e18;
+
+  const unlockedCollateral = await convertSharesToAmount(event, pairName, collateralAddress, collateralShares);
+
+  const lineResupplyPairAggregatedInfo = await getResupplyPairAggregatedInfo(
+    event,
+    pairAddress,
+    pairName,
+    collateralAddress
+  );
+
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
+
+  return `
+🔁${borrower} repaid ${formatForPrint(repaidAmount)}${hyperlink_reUSD()} by swapping ${formatForPrint(
+    unlockedCollateral
+  )}${collateral}
+Market: ${hyperlink_ResupplyPair(pairAddress, extractPairName(pairName))}
+${lineResupplyPairAggregatedInfo}  
+${lastLine}  
+  `;
+}

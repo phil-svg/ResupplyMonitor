@@ -1,5 +1,5 @@
 import { address_InsurancePool, getABI_InsurancePool } from '../../../getters/resupply/InsurancePool.js';
-import { getMessage_InsurancePool_Cooldown, getMessage_InsurancePool_Deposit, getMessage_InsurancePool_RewardPaid, } from '../../../telegram/messages/contracts/InsurancePool.js';
+import { getMessage_InsurancePool_Cooldown, getMessage_InsurancePool_Deposit, getMessage_InsurancePool_ExitCancel, getMessage_InsurancePool_RewardPaid, getMessage_InsurancePool_Withdraw, } from '../../../telegram/messages/contracts/InsurancePool.js';
 import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 export async function plugTo_InsurancePool(eventEmitter) {
@@ -19,6 +19,16 @@ export async function plugTo_InsurancePool(eventEmitter) {
         },
         RewardPaid: async (event) => {
             const message = await getMessage_InsurancePool_RewardPaid(event);
+            if (message)
+                eventEmitter.emit('newMessage', message);
+        },
+        ExitCancel: async (event) => {
+            const message = await getMessage_InsurancePool_ExitCancel(event);
+            if (message)
+                eventEmitter.emit('newMessage', message);
+        },
+        Withdraw: async (event) => {
+            const message = await getMessage_InsurancePool_Withdraw(event);
             if (message)
                 eventEmitter.emit('newMessage', message);
         },

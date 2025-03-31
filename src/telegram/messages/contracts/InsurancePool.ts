@@ -50,3 +50,25 @@ Insurance Pool Balance: ${formatForPrint(totalAssets / 1e18)}${hyperlink_reUSD()
 ${lastLine}  
   `;
 }
+
+export async function getMessage_InsurancePool_ExitCancel(event: any): Promise<string | null> {
+  const user = await getUser(event.returnValues.account);
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
+
+  return `
+↩️${user} canceled their exit and stayed in${hyperlink_InsurancePool()}
+${lastLine}  
+  `;
+}
+
+export async function getMessage_InsurancePool_Withdraw(event: any): Promise<string | null> {
+  const user = await getUser(event.returnValues.owner);
+  const amount = Number(event.returnValues.assets) / 1e18;
+
+  const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
+
+  return `
+User${user} withdrew ${formatForPrint(amount)}${hyperlink_reUSD()} from${hyperlink_InsurancePool()}
+${lastLine}  
+  `;
+}

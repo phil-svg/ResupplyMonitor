@@ -4,6 +4,7 @@ import {
   getMessage_VestManager_TokenRedeemed,
   getMessage_VestManager_VestCreated,
   getMessage_VestManager_AirdropClaimed,
+  getMessage_VestManager_ClaimSettingsSet,
 } from '../../../telegram/messages/contracts/VestManager.js';
 import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
@@ -34,6 +35,10 @@ export async function plugTo_VestManager(eventEmitter: any) {
           const message = await getMessage_VestManager_AirdropClaimed(event);
           if (message) eventEmitter.emit('newMessage', message);
         },
+        ClaimSettingsSet: async (event) => {
+          const message = await getMessage_VestManager_ClaimSettingsSet(event);
+          if (message) eventEmitter.emit('newMessage', message);
+        },
         Primitive: async (event) => {
           const { event: eventName, transactionHash: txHash } = event;
           const message = await getMessage_primitiveEvent(contractAddress, eventName, contractName, txHash);
@@ -43,6 +48,8 @@ export async function plugTo_VestManager(eventEmitter: any) {
 
       for (const event of events) {
         const { event: eventName } = event;
+
+        console.log('event', event);
 
         const handler = handlers[eventName];
         if (handler) {

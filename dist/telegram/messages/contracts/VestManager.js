@@ -71,4 +71,16 @@ Circulating Supply: ${formatForPrint(circulatingSupplyRSUP)}${hyperlink_RSUP()}
 ${lastLine}  
   `;
 }
+export async function getMessage_VestManager_ClaimSettingsSet(event) {
+    const user = await getUser(event.returnValues.account);
+    const recipient = await getUser(event.returnValues.recipient);
+    const allowPermissionlessClaims = event.returnValues.allowPermissionlessClaims;
+    const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
+    return `
+⚙️${user} updated their claim settings
+Recipient:${recipient}
+Permissionless Claims: ${allowPermissionlessClaims ? 'Enabled' : 'Disabled'}
+${lastLine}  
+  `;
+}
 //# sourceMappingURL=VestManager.js.map
