@@ -5,6 +5,7 @@ import { getContract_RSUP } from '../../../getters/resupply/RSUP.js';
 import { address_SimpleRewardStreamer3 } from '../../../getters/resupply/SimpleRewardStreamer3.js';
 import { address_VestManager } from '../../../getters/resupply/VestManager.js';
 import { web3Call } from '../../../web3/Web3Basics.js';
+import { threshold_RSUP_claimed } from '../../Thresholds.js';
 import { getUser, hyperlink_cvxPrisma, hyperlink_Prisma, hyperlink_RSUP, hyperlink_yPrisma } from '../Hyperlinks.js';
 import { getLastLine } from '../ResupplyGenericFormatting.js';
 import { formatForPrint } from '../TelegramFormatting.js';
@@ -42,6 +43,8 @@ async function getRSUPCirculatingSupply(event: any): Promise<number | null> {
 }
 
 export async function getMessage_VestManager_Claimed(event: any): Promise<string | null> {
+  if (event.returnValues.amount / 1e18 <= threshold_RSUP_claimed) return null;
+
   const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
 
   const circulatingSupplyRSUP = await getRSUPCirculatingSupply(event);
@@ -74,6 +77,7 @@ export async function getMessage_VestManager_VestCreated(event: any): Promise<st
   return null;
 }
 export async function getMessage_VestManager_AirdropClaimed(event: any): Promise<string | null> {
+  if (event.returnValues.amount / 1e18 <= threshold_RSUP_claimed) return null;
   const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
   const circulatingSupplyRSUP = await getRSUPCirculatingSupply(event);
 

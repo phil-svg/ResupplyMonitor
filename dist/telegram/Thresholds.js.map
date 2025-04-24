@@ -1,1 +1,1 @@
-{"version":3,"file":"Thresholds.js","sourceRoot":"","sources":["../../src/telegram/Thresholds.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,wBAAwB,GAAG,GAAG,CAAC"}
+{"version":3,"file":"Thresholds.js","sourceRoot":"","sources":["../../src/telegram/Thresholds.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,wBAAwB,GAAG,GAAG,CAAC;AAC5C,MAAM,CAAC,MAAM,oBAAoB,GAAG,EAAE,CAAC;AACvC,MAAM,CAAC,MAAM,sBAAsB,GAAG,EAAE,CAAC;AACzC,MAAM,CAAC,MAAM,sBAAsB,GAAG,EAAE,CAAC;AACzC,MAAM,CAAC,MAAM,iBAAiB,GAAG,GAAG,CAAC"}

@@ -10,7 +10,7 @@ export async function getMessage_reUSD_scrvUSD_AddLiquidity(event: any): Promise
 
   const parts = [];
   if (reUSD > 0) parts.push(`${formatForPrint(reUSD)}${hyperlink_reUSD()}`);
-  if (scrvUSD > 0) parts.push(`${formatForPrint(scrvUSD)} scrvUSD`);
+  if (scrvUSD > 0) parts.push(`${formatForPrint(scrvUSD)}${hyperlink_scrvUSD()}`);
 
   const provided = parts.join(' + ');
 

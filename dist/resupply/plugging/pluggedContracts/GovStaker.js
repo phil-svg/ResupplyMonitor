@@ -1,5 +1,5 @@
 import { address_GovStaker, getABI_GovStaker } from '../../../getters/resupply/GovStaker.js';
-import { getMessage_GovStaker_Staked } from '../../../telegram/messages/contracts/GovStaker.js';
+import { getMessage_GovStaker_RewardPaid, getMessage_GovStaker_Staked, getMessage_GovStaker_Unstaked, } from '../../../telegram/messages/contracts/GovStaker.js';
 import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 export async function plugTo_GovStaker(eventEmitter) {
@@ -15,8 +15,15 @@ export async function plugTo_GovStaker(eventEmitter) {
                     if (message)
                         eventEmitter.emit('newMessage', message);
                 },
-                foo: async (event) => {
-                    // handle foo
+                RewardPaid: async (event) => {
+                    const message = await getMessage_GovStaker_RewardPaid(event);
+                    if (message)
+                        eventEmitter.emit('newMessage', message);
+                },
+                Unstaked: async (event) => {
+                    const message = await getMessage_GovStaker_Unstaked(event);
+                    if (message)
+                        eventEmitter.emit('newMessage', message);
                 },
                 bar: async (event) => {
                     // handle bar

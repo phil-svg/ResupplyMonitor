@@ -9,7 +9,7 @@ export async function getMessage_reUSD_sfrxUSD_AddLiquidity(event) {
     if (reUSD > 0)
         parts.push(`${formatForPrint(reUSD)}${hyperlink_reUSD()}`);
     if (sfrxUSD > 0)
-        parts.push(`${formatForPrint(sfrxUSD)} sfrxUSD`);
+        parts.push(`${formatForPrint(sfrxUSD)}${hyperlink_sfrxUSD()}`);
     const provided = parts.join(' + ');
     return `
 💧${await getUser(event.returnValues.provider)} added ${provided} to${hyperlink_reUSD_sfrxUSD()}

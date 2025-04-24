@@ -42,7 +42,6 @@ export async function plugTo_VestManager(eventEmitter) {
             };
             for (const event of events) {
                 const { event: eventName } = event;
-                console.log('event', event);
                 const handler = handlers[eventName];
                 if (handler) {
                     await handler(event);
