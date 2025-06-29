@@ -62,6 +62,7 @@ ${lastLine}
 }
 
 export async function getMessage_InsurancePool_Withdraw(event: any): Promise<string | null> {
+  return null;
   const user = await getUser(event.returnValues.owner);
   const amount = Number(event.returnValues.assets) / 1e18;
 

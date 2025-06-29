@@ -43,6 +43,7 @@ ${lastLine}
   `;
 }
 export async function getMessage_InsurancePool_Withdraw(event) {
+    return null;
     const user = await getUser(event.returnValues.owner);
     const amount = Number(event.returnValues.assets) / 1e18;
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
