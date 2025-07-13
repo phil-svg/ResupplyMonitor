@@ -75,11 +75,11 @@ export function hyperlink_GovStaker() {
 }
 
 export function hyperlink_reUSD_scrvUSD() {
-  return `${hyperlink(getTokenURL(address_reUSD_scrvUSD), 'Curve.fi reUSD/scrvUSD')}`;
+  return `${hyperlink(getTokenURL(address_reUSD_scrvUSD), 'Curve.finance reUSD/scrvUSD')}`;
 }
 
 export function hyperlink_reUSD_sfrxUSD() {
-  return `${hyperlink(getTokenURL(address_reUSD_sfrxUSD), 'Curve.fi reUSD/sfrxUSD')}`;
+  return `${hyperlink(getTokenURL(address_reUSD_sfrxUSD), 'Curve.finance reUSD/sfrxUSD')}`;
 }
 
 export function hyperlink_ResupplyPair(address: string, name: string) {
