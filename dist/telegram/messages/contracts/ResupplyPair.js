@@ -6,6 +6,7 @@ import { getUser, hyperlink_CRV, hyperlink_crvUSD, hyperlink_CVX, hyperlink_frxU
 import { getLastLine } from '../ResupplyGenericFormatting.js';
 import { formatForPrint, getTokenURL, hyperlink } from '../TelegramFormatting.js';
 import { extractPairName } from '../../../resupply/LoadAllMarkets.js';
+import { getContract_Utilities2 } from '../../../getters/resupply/Utilities2.js';
 function getCollateral(name) {
     if (name.includes('CurveLend')) {
         return hyperlink_crvUSD();
@@ -27,9 +28,10 @@ function getRewardToken(tokenAddress) {
     return `${hyperlink(getTokenURL(tokenAddress), 'Token')}`;
 }
 async function getResupplyPairAggregatedInfo(event, pairAddress, pairName, collateralAddress) {
+    const utilities2 = getContract_Utilities2();
+    const currentRateInfo = await web3Call(utilities2, 'getPairInterestRate', [pairAddress], event.blockNumber);
+    const borrowRateReUSD = (100 * (currentRateInfo * 365 * 86400)) / 1e18;
     const contract = new web3HttpProvider.eth.Contract(getABI_ResupplyPair(), pairAddress);
-    const currentRateInfo = await web3Call(contract, 'currentRateInfo', [], event.blockNumber);
-    const borrowRateReUSD = (100 * (currentRateInfo.ratePerSec * 365 * 86400)) / 1e18;
     const pairAccounting = await web3Call(contract, 'getPairAccounting', [], event.blockNumber);
     const totalCollateralShares = pairAccounting._totalCollateral / 1e18;
     const totalBorrowAmount = pairAccounting._totalBorrowAmount / 1e18;
