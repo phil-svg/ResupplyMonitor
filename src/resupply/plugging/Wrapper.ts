@@ -13,6 +13,7 @@ import { plugTo_reUSD_scrvUSD } from './pluggedContracts/reUSD_scrvUSD.js';
 import { plugTo_reUSD_sfrxUSD } from './pluggedContracts/reUSD_sfrxUSD.js';
 import { plugTo_RewardHandler } from './pluggedContracts/RewardHandler.js';
 import { plugTo_RSUP } from './pluggedContracts/RSUP.js';
+import { plugTo_sreUSD } from './pluggedContracts/sreUSD.js';
 import { plugTo_Swapper } from './pluggedContracts/Swapper.js';
 import { plugTo_Treasury } from './pluggedContracts/Treasury.js';
 import { plugTo_VestManager } from './pluggedContracts/VestManager.js';
@@ -21,6 +22,7 @@ import { plugTo_Voter } from './pluggedContracts/Voter.js';
 export async function startListeningToAllContracts(eventEmitter: any) {
   await plugTo_reUSD(eventEmitter);
   await plugTo_RSUP(eventEmitter);
+  await plugTo_sreUSD(eventEmitter);
   await plugTo_AutoStakeCallback(eventEmitter);
   await plugTo_EmissionsController(eventEmitter);
   await plugTo_FeeDeposit(eventEmitter);
