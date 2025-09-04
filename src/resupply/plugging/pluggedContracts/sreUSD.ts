@@ -1,34 +1,53 @@
 import { address_sreUSD, getABI_sreUSD } from '../../../getters/resupply/sreUSD.js';
-import { getMessage_erc20, getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
+import { getMessage_sreUSD_Deposit, getMessage_sreUSD_Withdraw } from '../../../telegram/messages/contracts/sreUSD.js';
+import { getMessage_primitiveEvent } from '../../../telegram/messages/ResupplyGenericFormatting.js';
 import { fetchEventsRealTime, registerHandler } from '../../../web3/AllEvents.js';
 
 export async function plugTo_sreUSD(eventEmitter: any) {
-  const solvedEvents = new Set(['Transfer', 'foo']);
-  const blacklistedEvents = new Set(['Approval', 'bar']);
-
-  // registerHandler(async (logs) => {
-  //   const events = await fetchEventsRealTime(logs, address_sreUSD, getABI_sreUSD(), 'AllEvents');
-  //   if (events.length > 0) {
-  //     for (const event of events) {
-  //       if (solvedEvents.has(event.event) || blacklistedEvents.has(event.event)) continue;
-
-  //       const contractAddress = address_sreUSD;
-  //       const eventName = event.event;
-  //       const contractName = 'sreUSD';
-  //       const txHash = event.transactionHash;
-  //       const message = await getMessage_primitiveEvent(contractAddress, eventName, contractName, txHash);
-  //       eventEmitter.emit('newMessage', message);
-  //     }
-  //   }
-  // });
+  const blacklistedEvents = new Set(['Approval', 'Transfer', , 'DistributeRewards', 'foobar']);
 
   registerHandler(async (logs) => {
-    const events = await fetchEventsRealTime(logs, address_sreUSD, getABI_sreUSD(), 'Transfer');
+    const events = await fetchEventsRealTime(logs, address_sreUSD, getABI_sreUSD(), 'AllEvents');
     if (events.length > 0) {
-      events.forEach(async (event: any) => {
-        const message = await getMessage_erc20(address_sreUSD, 'sreUSD', 18, event);
-        eventEmitter.emit('newMessage', message);
-      });
+      const contractAddress = address_sreUSD;
+      const contractName = 'sreUSD';
+
+      const handlers: Record<string, (event: any) => Promise<void>> = {
+        Deposit: async (event) => {
+          const message = await getMessage_sreUSD_Deposit(event);
+          if (message) eventEmitter.emit('newMessage', message);
+        },
+        Withdraw: async (event) => {
+          const message = await getMessage_sreUSD_Withdraw(event);
+          if (message) eventEmitter.emit('newMessage', message);
+        },
+        Primitive: async (event) => {
+          const { event: eventName, transactionHash: txHash } = event;
+          const message = await getMessage_primitiveEvent(contractAddress, eventName, contractName, txHash);
+          eventEmitter.emit('newMessage', message);
+        },
+      };
+
+      for (const event of events) {
+        const { event: eventName } = event;
+
+        const handler = handlers[eventName];
+        if (handler) {
+          await handler(event);
+        } else if (!blacklistedEvents.has(eventName)) {
+          await handlers['Primitive'](event);
+        }
+      }
     }
   });
+
+  // registerHandler(async (logs) => {
+  //   const events = await fetchEventsRealTime(logs, address_sreUSD, getABI_sreUSD(), 'Transfer');
+  //   if (events.length > 0) {
+  //     events.forEach(async (event: any) => {
+  //       const message = await getMessage_erc20(address_sreUSD, 'sreUSD', 18, event);
+  //       eventEmitter.emit('newMessage', message);
+  //     });
+  //   }
+  // });
 }

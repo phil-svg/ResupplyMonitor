@@ -5,6 +5,7 @@ import { address_GovStaker } from '../../getters/resupply/GovStaker.js';
 import { address_InsurancePool } from '../../getters/resupply/InsurancePool.js';
 import { address_reUSD } from '../../getters/resupply/reUSD.js';
 import { address_RSUP } from '../../getters/resupply/RSUP.js';
+import { address_sreUSD } from '../../getters/resupply/sreUSD.js';
 import { getAddressURL, getTokenURL, hyperlink, shortenAddress } from './TelegramFormatting.js';
 export async function getUser(userAddress) {
     const shortenAgent = await shortenAddress(userAddress);
@@ -33,6 +34,9 @@ export function hyperlink_frxUSD() {
 }
 export function hyperlink_crvUSD() {
     return `${hyperlink(getTokenURL(address_crvUSD), 'crvUSD')}`;
+}
+export function hyperlink_sreUSD() {
+    return `${hyperlink(getTokenURL(address_sreUSD), 'sreUSD')}`;
 }
 export function hyperlink_Prisma() {
     return `${hyperlink(getTokenURL(address_PRISMA), 'Prisma')}`;
