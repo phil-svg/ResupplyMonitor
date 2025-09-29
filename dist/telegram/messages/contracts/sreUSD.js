@@ -1,5 +1,6 @@
 import { address_sreUSD, getABI_sreUSD } from '../../../getters/resupply/sreUSD.js';
 import { getContract_sreUSDUtility } from '../../../getters/resupply/sreUSDUtility.js';
+import { threshold_sreUSD_Deposit, threshold_sreUSD_Withdraw } from '../../../Thresholds.js';
 import { web3Call, web3HttpProvider } from '../../../web3/Web3Basics.js';
 import { getUser, hyperlink_reUSD, hyperlink_sreUSD } from '../Hyperlinks.js';
 import { getLastLine } from '../ResupplyGenericFormatting.js';
@@ -19,6 +20,8 @@ async function getTotalAssets_sreUSD(event) {
 }
 export async function getMessage_sreUSD_Deposit(event) {
     var _a, _b;
+    if (Number(event.returnValues.assets) / 1e18 <= threshold_sreUSD_Deposit)
+        return null;
     const totalAssets = await getTotalAssets_sreUSD(event);
     const apr = await getApr_sreUSD(event.blockNumber);
     const owner = await getUser(event.returnValues.owner);
@@ -34,6 +37,8 @@ ${lastLine}
 }
 export async function getMessage_sreUSD_Withdraw(event) {
     var _a, _b, _c, _d;
+    if (Number(event.returnValues.assets) / 1e18 <= threshold_sreUSD_Withdraw)
+        return null;
     const totalAssets = await getTotalAssets_sreUSD(event);
     const apr = await getApr_sreUSD(event.blockNumber);
     const owner = await getUser(event.returnValues.owner);

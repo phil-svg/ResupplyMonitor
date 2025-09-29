@@ -1,4 +1,10 @@
 import { address_InsurancePool, getABI_InsurancePool } from '../../../getters/resupply/InsurancePool.js';
+import {
+  threshold_insurancePool_Cooldown,
+  threshold_insurancePool_Deposit,
+  threshold_insurancePool_RewardPaid,
+  threshold_insurancePool_Withdraw,
+} from '../../../Thresholds.js';
 import { web3Call, web3HttpProvider } from '../../../web3/Web3Basics.js';
 import { getUser, hyperlink_InsurancePool, hyperlink_reUSD, hyperlink_RSUP } from '../Hyperlinks.js';
 import { getLastLine } from '../ResupplyGenericFormatting.js';
@@ -10,6 +16,7 @@ async function getTotalAssets(event: any) {
 }
 
 export async function getMessage_InsurancePool_Cooldown(event: any): Promise<string | null> {
+  if (event.returnValues.amount / 1e18 <= threshold_insurancePool_Cooldown) return null;
   const totalAssets = await getTotalAssets(event);
 
   const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
@@ -24,6 +31,8 @@ ${lastLine}
 }
 
 export async function getMessage_InsurancePool_Deposit(event: any): Promise<string | null> {
+  if (event.returnValues.assets / 1e18 <= threshold_insurancePool_Deposit) return null;
+
   const totalAssets = await getTotalAssets(event);
 
   const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
@@ -38,6 +47,7 @@ ${lastLine}
 }
 
 export async function getMessage_InsurancePool_RewardPaid(event: any): Promise<string | null> {
+  if (event.returnValues._rewardAmount / 1e18 <= threshold_insurancePool_RewardPaid) return null;
   const totalAssets = await getTotalAssets(event);
 
   const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
@@ -62,6 +72,7 @@ ${lastLine}
 }
 
 export async function getMessage_InsurancePool_Withdraw(event: any): Promise<string | null> {
+  if (Number(event.returnValues.assets) / 1e18 <= threshold_insurancePool_Withdraw) return null;
   const user = await getUser(event.returnValues.owner);
   const amount = Number(event.returnValues.assets) / 1e18;
 

@@ -1,3 +1,8 @@
+import {
+  threshold_reUSD_scrvUSD_AddLiquidity,
+  threshold_reUSD_scrvUSD_RemoveLiquidity,
+  threshold_reUSD_scrvUSD_RemoveLiquidityOne,
+} from '../../../Thresholds.js';
 import { getUser, hyperlink_reUSD, hyperlink_reUSD_scrvUSD, hyperlink_scrvUSD } from '../Hyperlinks.js';
 import { getLastLine } from '../ResupplyGenericFormatting.js';
 import { formatForPrint } from '../TelegramFormatting.js';
@@ -7,6 +12,8 @@ export async function getMessage_reUSD_scrvUSD_AddLiquidity(event: any): Promise
 
   const reUSD = Number(event.returnValues.token_amounts[0]) / 1e18;
   const scrvUSD = Number(event.returnValues.token_amounts[1]) / 1e18;
+
+  if (reUSD + scrvUSD <= threshold_reUSD_scrvUSD_AddLiquidity) return null;
 
   const parts = [];
   if (reUSD > 0) parts.push(`${formatForPrint(reUSD)}${hyperlink_reUSD()}`);
@@ -26,6 +33,8 @@ export async function getMessage_reUSD_scrvUSD_RemoveLiquidity(event: any): Prom
   const reUSD = Number(event.returnValues.token_amounts[0]) / 1e18;
   const scrvUSD = Number(event.returnValues.token_amounts[1]) / 1e18;
 
+  if (reUSD + scrvUSD <= threshold_reUSD_scrvUSD_RemoveLiquidity) return null;
+
   const parts = [];
   if (reUSD > 0) parts.push(`${formatForPrint(reUSD)}${hyperlink_reUSD()}`);
   if (scrvUSD > 0) parts.push(`${formatForPrint(scrvUSD)}${hyperlink_scrvUSD()}`);
@@ -43,6 +52,8 @@ export async function getMessage_reUSD_scrvUSD_RemoveLiquidityOne(event: any): P
 
   const tokenId = Number(event.returnValues.token_id);
   const coinAmount = Number(event.returnValues.coin_amount) / 1e18;
+
+  if (coinAmount <= threshold_reUSD_scrvUSD_RemoveLiquidityOne) return null;
 
   const tokenName = tokenId === 0 ? hyperlink_reUSD() : hyperlink_scrvUSD();
 

@@ -7,6 +7,7 @@ import { getLastLine } from '../ResupplyGenericFormatting.js';
 import { formatForPrint, getTokenURL, hyperlink } from '../TelegramFormatting.js';
 import { extractPairName } from '../../../resupply/LoadAllMarkets.js';
 import { getContract_Utilities2 } from '../../../getters/resupply/Utilities2.js';
+import { threshold_ResupplyPair_AddCollateral, threshold_ResupplyPair_Borrow, threshold_ResupplyPair_Liquidate, threshold_ResupplyPair_Redeemed, threshold_ResupplyPair_RemoveCollateral, threshold_ResupplyPair_Repay, threshold_ResupplyPair_RepayWithCollateral, threshold_ResupplyPair_RewardPaid, } from '../../../Thresholds.js';
 function getCollateral(name) {
     if (name.includes('CurveLend')) {
         return hyperlink_crvUSD();
@@ -51,6 +52,8 @@ async function convertSharesToAmount(event, name, contractAddress, sharesAmount)
     }
 }
 export async function getMessage_ResupplyPair_RewardPaid(event, pairAddress, pairName) {
+    if (event.returnValues._rewardAmount / 1e18 <= threshold_ResupplyPair_RewardPaid)
+        return null;
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     return `
 🎁${await getUser(event.returnValues._user)} received ${formatForPrint(event.returnValues._rewardAmount / 1e18)}${getRewardToken(event.returnValues._rewardToken)} from${hyperlink_ResupplyPair(pairAddress, extractPairName(pairName))}
@@ -62,6 +65,8 @@ export async function getMessage_ResupplyPair_AddCollateral(event, pairAddress, 
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     const collateral = getCollateral(pairName);
     const collateralAmount = await convertSharesToAmount(event, pairName, collateralAddress, event.returnValues.collateralAmount / 1e18);
+    if (collateralAmount && collateralAmount <= threshold_ResupplyPair_AddCollateral)
+        return null;
     return `
 🏦${await getUser(event.returnValues.borrower)} added ${formatForPrint(collateralAmount)}${collateral} to${hyperlink_ResupplyPair(pairAddress, extractPairName(pairName))}
 ${lineResupplyPairAggregatedInfo}  
@@ -69,6 +74,8 @@ ${lastLine}
   `;
 }
 export async function getMessage_ResupplyPair_Borrow(event, pairAddress, pairName, collateralAddress) {
+    if (event.returnValues._borrowAmount / 1e18 <= threshold_ResupplyPair_Borrow)
+        return null;
     const lineResupplyPairAggregatedInfo = await getResupplyPairAggregatedInfo(event, pairAddress, pairName, collateralAddress);
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     return `
@@ -83,6 +90,8 @@ export async function getMessage_ResupplyPair_LeveragedPosition(event, pairAddre
 export async function getMessage_ResupplyPair_RemoveCollateral(event, pairAddress, pairName, collateralAddress) {
     const collateral = getCollateral(pairName);
     const collateralAmount = await convertSharesToAmount(event, pairName, collateralAddress, event.returnValues._collateralAmount / 1e18);
+    if (collateralAmount && collateralAmount <= threshold_ResupplyPair_RemoveCollateral)
+        return null;
     const lineResupplyPairAggregatedInfo = await getResupplyPairAggregatedInfo(event, pairAddress, pairName, collateralAddress);
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     return `
@@ -92,6 +101,8 @@ ${lastLine}
   `;
 }
 export async function getMessage_ResupplyPair_Repay(event, pairAddress, pairName, collateralAddress) {
+    if (event.returnValues.amountToRepay / 1e18 <= threshold_ResupplyPair_Repay)
+        return null;
     const lineResupplyPairAggregatedInfo = await getResupplyPairAggregatedInfo(event, pairAddress, pairName, collateralAddress);
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     return `
@@ -101,6 +112,8 @@ ${lastLine}
   `;
 }
 export async function getMessage_ResupplyPair_Redeemed(event, pairAddress, pairName, collateralAddress) {
+    if (event.returnValues._amount / 1e18 <= threshold_ResupplyPair_Redeemed)
+        return null;
     const collateral = getCollateral(pairName);
     const collateralAmount = await convertSharesToAmount(event, pairName, collateralAddress, event.returnValues._collateralFreed / 1e18);
     const lineResupplyPairAggregatedInfo = await getResupplyPairAggregatedInfo(event, pairAddress, pairName, collateralAddress);
@@ -116,6 +129,8 @@ export async function getMessage_ResupplyPair_Liquidate(event, pairAddress, pair
     const borrower = await getUser(event.returnValues._borrower);
     const repayAmount = Number(event.returnValues._amountLiquidatorToRepay) / 1e18;
     const collateralShares = Number(event.returnValues._collateralForLiquidator) / 1e18;
+    if (repayAmount <= threshold_ResupplyPair_Liquidate)
+        return null;
     const unlockedCollateral = await convertSharesToAmount(event, pairName, collateralAddress, collateralShares);
     const lineResupplyPairAggregatedInfo = await getResupplyPairAggregatedInfo(event, pairAddress, pairName, collateralAddress);
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
@@ -131,6 +146,8 @@ export async function getMessage_ResupplyPair_RepayWithCollateral(event, pairAdd
     const collateral = getCollateral(pairName);
     const collateralShares = Number(event.returnValues._collateralToSwap) / 1e18;
     const repaidAmount = Number(event.returnValues._amountAssetOut) / 1e18;
+    if (repaidAmount <= threshold_ResupplyPair_RepayWithCollateral)
+        return null;
     const unlockedCollateral = await convertSharesToAmount(event, pairName, collateralAddress, collateralShares);
     const lineResupplyPairAggregatedInfo = await getResupplyPairAggregatedInfo(event, pairAddress, pairName, collateralAddress);
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
