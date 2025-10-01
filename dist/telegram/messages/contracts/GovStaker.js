@@ -1,9 +1,9 @@
-import { threshold_reUSD_reward, threshold_RSUP_stake, threshold_unstake } from '../../Thresholds.js';
+import { threshold_RSUP_RewardPaid, threshold_RSUP_Staked, threshold_RSUP_Unstaked } from '../../../Thresholds.js';
 import { getUser, hyperlink_GovStaker, hyperlink_reUSD, hyperlink_RSUP } from '../Hyperlinks.js';
 import { getLastLine } from '../ResupplyGenericFormatting.js';
 import { formatForPrint } from '../TelegramFormatting.js';
 export async function getMessage_GovStaker_Staked(event) {
-    if (event.returnValues.amount / 1e18 <= threshold_RSUP_stake)
+    if (event.returnValues.amount / 1e18 <= threshold_RSUP_Staked)
         return null;
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     return `
@@ -12,7 +12,7 @@ ${lastLine}
   `;
 }
 export async function getMessage_GovStaker_RewardPaid(event) {
-    if (event.returnValues.reward / 1e18 <= threshold_reUSD_reward)
+    if (event.returnValues.reward / 1e18 <= threshold_RSUP_RewardPaid)
         return null;
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     return `
@@ -21,7 +21,7 @@ ${lastLine}
   `;
 }
 export async function getMessage_GovStaker_Unstaked(event) {
-    if (event.returnValues.amount / 1e18 <= threshold_unstake)
+    if (event.returnValues.amount / 1e18 <= threshold_RSUP_Unstaked)
         return null;
     const lastLine = await getLastLine(event.transactionHash, event.blockNumber);
     return `

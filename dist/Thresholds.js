@@ -47,4 +47,10 @@ export const threshold_reUSD_sfrxUSD_RemoveLiquidityOne = 50000;
 export const threshold_reUSD_scrvUSD_AddLiquidity = 50000;
 export const threshold_reUSD_scrvUSD_RemoveLiquidity = 50000;
 export const threshold_reUSD_scrvUSD_RemoveLiquidityOne = 50000;
+// =======================
+// RSUP
+// =======================
+export const threshold_RSUP_Staked = 1000;
+export const threshold_RSUP_RewardPaid = 2500;
+export const threshold_RSUP_Unstaked = 1000;
 //# sourceMappingURL=Thresholds.js.map
